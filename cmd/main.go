@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"mall_server/api"
-	"mall_server/pkg/etcd"
 	"mall_server/store"
 	"time"
 )
@@ -17,7 +16,7 @@ func main() {
 	mysql := new(store.Mysql)
 	mysql.Get()
 	log := new(store.Log)
-	go etcd.Register()
+	//go etcd.Register()
 	go api.GrpcServer()
 	log.Get().Debug("server started at %v", time.Now())
 	fmt.Printf("server started at %v \n", time.Now())
