@@ -38,6 +38,7 @@ require (
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.7.1
 	github.com/tencentyun/cos-go-sdk-v5 v0.7.10
+	github.com/toolkits/net v0.0.0-20160910085801-3f39ab6fe3ce
 	google.golang.org/grpc v1.27.0
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 	gopkg.in/yaml.v2 v2.2.8

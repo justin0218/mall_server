@@ -36,3 +36,21 @@ func (s *Model) GetMultiByGoodsId(goodsId int) (ret []Sku, err error) {
 	}
 	return
 }
+
+func (s *Model) DecrInventory(id, buyNum int) (err error) {
+	db := s.Db.Table(s.Name)
+	err = db.Where("id = ?", id).UpdateColumn("inventory", gorm.Expr("inventory - ?", buyNum)).Error
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (s *Model) GetById(id int) (ret Sku, err error) {
+	db := s.Db.Table(s.Name)
+	err = db.Where("id = ?", id).First(&ret).Error
+	if err != nil {
+		return
+	}
+	return
+}

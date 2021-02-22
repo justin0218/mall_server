@@ -11,6 +11,7 @@ import (
 
 type MallSvr struct {
 	GoodsService services.GoodsService
+	OrderService services.OrderService
 }
 
 func GrpcServer() {
