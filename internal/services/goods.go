@@ -31,6 +31,9 @@ func (s *GoodsService) GetDetailById(goodsId int) (ret *proto.GetGoodsDetailRes,
 		return
 	}
 	for _, v := range skuInfo {
+		if v.Inventory == 0 {
+			continue
+		}
 		ret.Skus = append(ret.Skus, &proto.Sku{
 			Id:        int64(v.Id),
 			Name:      v.Name,
