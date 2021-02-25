@@ -42,16 +42,17 @@ func (s *OrderService) CreateOrder(in *proto.CreateOrderReq) (ret *proto.CreateO
 		return
 	}
 	orderTbl := order.NewModel(tx)
-	err = orderTbl.Create(order.Order{
+	inOrder := order.Order{
 		OrderCode: orderCode,
 		GoodsId:   in.GoodsId,
 		GoodsName: goodsInfo.Name,
 		SkuId:     in.SkuId,
 		SkuName:   skuInfo.Name,
 		Count:     in.BuyNum,
-		Price:     skuInfo.Price * int(in.BuyNum),
+		Price:     int64(skuInfo.Price) * in.BuyNum,
 		Uid:       in.Uid,
-	})
+	}
+	err = orderTbl.Create(inOrder)
 	if err != nil {
 		tx.Rollback()
 		return
@@ -77,5 +78,8 @@ func (s *OrderService) CreateOrder(in *proto.CreateOrderReq) (ret *proto.CreateO
 	}
 	ret = new(proto.CreateOrderRes)
 	ret.OrderCode = orderCode
+	ret.Price = inOrder.Price
+	ret.GoodsName = goodsInfo.Name
+	ret.SkuName = skuInfo.Name
 	return
 }

@@ -13,7 +13,7 @@ type Order struct {
 	SkuId          int64     `json:"sku_id"`
 	SkuName        string    `json:"sku_name"`
 	Count          int64     `json:"count"`
-	Price          int       `json:"price"`
+	Price          int64     `json:"price"`
 	DealPrice      int       `json:"deal_price"`
 	Uid            int64     `json:"uid"`
 	Status         int       `json:"status"`
