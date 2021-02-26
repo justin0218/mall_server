@@ -8,6 +8,7 @@ import (
 	"mall_server/internal/models/order"
 	"mall_server/internal/models/sku"
 	"mall_server/pkg/tool"
+	"time"
 )
 
 //
@@ -81,5 +82,24 @@ func (s *OrderService) CreateOrder(in *proto.CreateOrderReq) (ret *proto.CreateO
 	ret.Price = inOrder.Price
 	ret.GoodsName = goodsInfo.Name
 	ret.SkuName = skuInfo.Name
+	return
+}
+
+func (s *OrderService) AutoCloseOrder(in *proto.AutoCloseOrderReq) (ret *proto.AutoCloseOrderRes, err error) {
+	db := s.Mysql.Get()
+	orderTbl := order.NewModel(db)
+	orders, e := orderTbl.GetByStatus(0)
+	if e != nil {
+		e = err
+		return
+	}
+	for _, v := range orders {
+		if time.Now().Unix()-v.CreatedAt.Unix() >= 600 {
+			err = orderTbl.UpdateStatusByOrderCode(v.OrderCode, -1)
+			if err != nil {
+				continue
+			}
+		}
+	}
 	return
 }

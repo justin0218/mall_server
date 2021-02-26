@@ -5,6 +5,7 @@ option go_package = "proto";
 service mall {
   rpc get_goods_detail(get_goods_detail_req) returns (get_goods_detail_res) {}
   rpc create_order(create_order_req) returns (create_order_res) {}
+  rpc auto_close_order(auto_close_order_req) returns (auto_close_order_res) {}
 }
 
 message sku{
@@ -45,6 +46,14 @@ message create_order_res{
   string goods_name = 2;
   string sku_name = 3;
   int64 price = 4;
+}
+
+message auto_close_order_req{
+
+}
+
+message auto_close_order_res{
+
 }
 
 //protoc -I . --go_out=plugins=grpc:. api/proto/proto.proto

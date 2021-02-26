@@ -41,3 +41,21 @@ func (s *Model) Create(in Order) (err error) {
 	}
 	return
 }
+
+func (s *Model) GetByStatus(status int) (ret []Order, err error) {
+	db := s.Db.Table(s.Name)
+	err = db.Where("status = ?", status).Find(&ret).Error
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (s *Model) UpdateStatusByOrderCode(orderCode string, status int) (err error) {
+	db := s.Db.Table(s.Name)
+	err = db.Where("order_code = ?", orderCode).UpdateColumn("status", status).Error
+	if err != nil {
+		return
+	}
+	return
+}
