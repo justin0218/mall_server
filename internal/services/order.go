@@ -101,5 +101,6 @@ func (s *OrderService) AutoCloseOrder(in *proto.AutoCloseOrderReq) (ret *proto.A
 			}
 		}
 	}
+	ret = new(proto.AutoCloseOrderRes)
 	return
 }
