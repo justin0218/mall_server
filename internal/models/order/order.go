@@ -2,6 +2,7 @@ package order
 
 import (
 	"github.com/jinzhu/gorm"
+	"mall_server/internal/models/wx"
 	"time"
 )
 
@@ -54,6 +55,19 @@ func (s *Model) GetByStatus(status int) (ret []Order, err error) {
 func (s *Model) UpdateStatusByOrderCode(orderCode string, status int) (err error) {
 	db := s.Db.Table(s.Name)
 	err = db.Where("order_code = ?", orderCode).UpdateColumn("status", status).Error
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (s *Model) UpdateByOrderCode(in *wx.WxpayReq) (err error) {
+	db := s.Db.Table(s.Name)
+	err = db.Where("order_code = ?", in.OutTradeNo).Updates(map[string]interface{}{
+		"third_order_code": in.TransactionId,
+		"deal_price":       in.TotalFee,
+		"status":           1,
+	}).Error
 	if err != nil {
 		return
 	}

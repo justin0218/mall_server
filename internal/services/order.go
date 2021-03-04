@@ -7,6 +7,7 @@ import (
 	"mall_server/internal/models/goods"
 	"mall_server/internal/models/order"
 	"mall_server/internal/models/sku"
+	"mall_server/internal/models/wx"
 	"mall_server/pkg/tool"
 	"time"
 )
@@ -103,4 +104,10 @@ func (s *OrderService) AutoCloseOrder(in *proto.AutoCloseOrderReq) (ret *proto.A
 	}
 	ret = new(proto.AutoCloseOrderRes)
 	return
+}
+
+func (s *OrderService) ConfirmOrder(in *wx.WxpayReq) error {
+	db := s.Mysql.Get()
+	orderTbl := order.NewModel(db)
+	return orderTbl.UpdateByOrderCode(in)
 }
