@@ -1,10 +1,10 @@
 package etcd
 
 import (
-	"mall_server/store"
 	"context"
 	"fmt"
 	"github.com/coreos/etcd/clientv3"
+	"mall_server/store"
 	"os"
 	"os/signal"
 	"strings"

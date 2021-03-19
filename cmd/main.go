@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"mall_server/api"
-	"mall_server/pkg/etcd"
+	"mall_server/pkg/rabbitmq/auto_close_order"
 	"mall_server/pkg/rabbitmq/consume_wx_pay_notice"
 	"mall_server/store"
 	"time"
@@ -20,9 +20,11 @@ func main() {
 	mysql := new(store.Mysql)
 	mysql.Get()
 	log := new(store.Log)
-	go etcd.Register()
+	//go etcd.Register()
 	go api.GrpcServer()
 	log.Get().Debug("server started at %v", time.Now())
 	fmt.Printf("server started at %v \n", time.Now())
-	consume_wx_pay_notice.Do()
+	go consume_wx_pay_notice.Do()
+	go auto_close_order.Do()
+	select {}
 }
